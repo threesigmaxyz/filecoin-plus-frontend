@@ -1,4 +1,4 @@
-# Filecoin Plus - Backend
+# Filecoin Plus RKH
 
 [![License: MIT][license-badge]][license]
 
@@ -7,10 +7,4 @@
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This repo has a frontend portal to a portal for actioning on allocator requests

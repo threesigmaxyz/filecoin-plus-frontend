@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { Search, ListFilter, File, PlusCircle } from "lucide-react";
+import { Search, ListFilter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -99,18 +98,6 @@ export function DashboardHeader({
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <Button size="sm" className="h-7 gap-1">
-          <PlusCircle className="h-3.5 w-3.5" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            <Link
-              href="https://airtable.com/app64ajISFdqLB7XK/pagJzPpLypcEH5Cd3/form"
-              target="_blank"
-            >
-              Add
-            </Link>
-          </span>
-        </Button>
       </div>
     </header>
   );
