@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import { useConnect as useWagmiConnect, useDisconnect as useWagmiDisconnect, useAccount as useWagmiAccount } from "wagmi";
+import { useConnect as useWagmiConnect, useDisconnect as useWagmiDisconnect, useAccount as useWagmiAccount, useSwitchChain } from "wagmi";
 
 import { AccountContext } from "@/contexts/AccountContext";
 
@@ -13,6 +13,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { VerifyAPI } from "@keyko-io/filecoin-verifier-tools";
 import { env } from "@/config/environment";
 import { injected } from "wagmi/connectors";
+import { Eip1193Provider } from "@safe-global/protocol-kit";
+import { getSafeKit } from "@/lib/safe";
 
 const queryClient = new QueryClient();
 
@@ -25,27 +27,44 @@ export const AccountProvider: React.FC<{
   const [currentConnector, setCurrentConnector] = useState<Connector | null>(null);
 
   // MetaAllocator connectors
-  const { address: wagmiAddress, status: wagmiStatus } = useWagmiAccount();
+  const { address: wagmiAddress, status: wagmiStatus, connector: wagmiConnector } = useWagmiAccount();
+  const { chains, switchChain: wagmiSwitchChain } = useSwitchChain()
   const { connect: wagmiConnect } = useWagmiConnect()
   const { disconnect: wagmiDisconnect } = useWagmiDisconnect()
 
   useEffect(() => {
     if (wagmiStatus === "connected") {
-      setAccount({
-        address: wagmiAddress,
-        index: 0,
-        isConnected: true,
-        role: AccountRole.METADATA_ALLOCATOR,
-        wallet: {
-          type: "metamask",
-          sign: async (_message: any, _indexAccount: number) => "0x00",
-          getAccounts: async () => {
-            return [wagmiAddress];
-          }
+      wagmiSwitchChain({
+        chainId: chains[0].id
+      })
+      
+      const setupSafe = async () => {
+        try {
+          const provider = await wagmiConnector?.getProvider();
+          const safeKit = await getSafeKit(provider);
+          const maOwners = await safeKit.getOwners();
+
+          setAccount({
+            address: wagmiAddress,
+            index: 0,
+            isConnected: true,
+            role: maOwners.includes(wagmiAddress) ? AccountRole.METADATA_ALLOCATOR : AccountRole.GUEST,
+            wallet: {
+              type: "metamask",
+              sign: async (_message: any, _indexAccount: number) => "0x00",
+              getAccounts: async () => {
+                return [wagmiAddress];
+              }
+            }
+          });
+        } catch (error) {
+          console.error("Error setting up Safe connection:", error);
         }
-      });
+      };
+
+      setupSafe();
     }
-  }, [wagmiStatus, wagmiAddress]);
+  }, [wagmiStatus, wagmiAddress, wagmiConnector]);
 
   // Registry of available connectors
   const connectors: { [key: string]: Connector } = {
@@ -94,7 +113,7 @@ export const AccountProvider: React.FC<{
    */
   const disconnect = useCallback(async () => {
     // handle MetaAllocator disconnect
-    if (account?.role === AccountRole.METADATA_ALLOCATOR) {
+    if (account?.role === AccountRole.METADATA_ALLOCATOR || account?.role === AccountRole.GUEST) {
       await wagmiDisconnect();
       setAccount(null);
     }

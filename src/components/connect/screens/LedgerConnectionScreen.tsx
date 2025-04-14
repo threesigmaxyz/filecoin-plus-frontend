@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { Loader2, ChevronLeft, ChevronRight, Copy } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight, Copy, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -100,7 +100,7 @@ export const LedgerConnectionScreen = ({ onConnect, onError }: LedgerConnectionS
               key={index}
               className="flex items-center justify-between p-2 border rounded"
             >
-              <div>
+              <div className="mr-2">
                 <p className="font-mono text-sm">{account.address}</p>
                 <p className="text-xs text-gray-500">Index: {account.index}</p>
               </div>
@@ -119,7 +119,7 @@ export const LedgerConnectionScreen = ({ onConnect, onError }: LedgerConnectionS
                   <Copy className="h-4 w-4" />
                 </Button>
                 <Button size="sm" onClick={() => handleLedgerAccountSelect(account)}>
-                  Select
+                  <ArrowRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>

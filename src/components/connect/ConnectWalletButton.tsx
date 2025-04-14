@@ -25,7 +25,7 @@ export default function ConnectWalletButton() {
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Connect Account</Button>
+      <Button onClick={() => setIsOpen(true)}>Connect Wallet</Button>
       <ConnectWalletDialog
         isOpen={isOpen}
         setIsOpen={setIsOpen}

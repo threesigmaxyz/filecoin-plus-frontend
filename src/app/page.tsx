@@ -20,16 +20,16 @@ export default function Home() {
           <div className="container px-4 md:px-6 mx-auto">
             <div className="flex flex-col items-center space-y-6 text-center">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl max-w-3xl">
-                Manage Your Fil+ Applications
+                Fil+ Allocator Application Portal
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                Streamline your Filecoin Plus application process with our intuitive dashboard. Track, manage, and optimize your journey to Filecoin Plus certification.
+                Apply to become a new Allocator, propose a MetaAllocator and track the progress of your process
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
                 <Link href="/dashboard">
                   <Button size="lg">Visit Dashboard</Button>
                 </Link>
-                <Link href="https://docs.filecoin.io/basics/how-storage-works/filecoin-plus/" target="_blank" rel="noopener noreferrer">
+                <Link href="https://fil.org/filplus" target="_blank" rel="noopener noreferrer">
                   <Button variant="outline" size="lg">Learn More</Button>
                 </Link>
               </div>
@@ -39,22 +39,20 @@ export default function Home() {
         <section id="features" className="w-full py-20 md:py-32 bg-gray-100 dark:bg-gray-800">
           <div className="container px-4 md:px-6 mx-auto">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">Application Phases</h2>
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="flex flex-col space-y-8 md:space-y-0 md:flex-row md:justify-between md:items-start">
               {[
-                { icon: ClipboardIcon, title: "Form Submission", description: "Submit your application with required details" },
-                { icon: UserCheckIcon, title: "KYC Process", description: "Complete identity verification checks" },
-                { icon: UsersIcon, title: "Governance Review", description: "Application assessed by governance team" },
-                { icon: KeyIcon, title: "RKH Approvals", description: "Final approval by Root Key Holders" },
+                { icon: ClipboardIcon, title: "1. Form Submission", description: "Submit your application with required details" },
+                { icon: UserCheckIcon, title: "2. KYC Process", description: "Complete identity verification checks" },
+                { icon: UsersIcon, title: "3. Governance Review", description: "Application assessed by governance team" },
+                { icon: KeyIcon, title: "4. Final Approval", description: "Approval by either Root Key Holders or a meta allocator contract" },
               ].map((phase, index) => (
-                <div key={index} className="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg transition-transform hover:scale-105">
-                  <div className="flex items-center mb-6">
-                    <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 text-lg font-bold">
-                      {index + 1}
-                    </div>
-                    <phase.icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{phase.title}</h3>
+                <div key={index} className="flex flex-col items-center text-center max-w-[250px] mx-auto">
+                  <phase.icon className="h-12 w-12 text-primary mb-4" />
+                  <h3 className="text-xl font-bold mb-2">{phase.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300">{phase.description}</p>
+                  {index < 3 && (
+                    <div className="hidden md:block w-12 h-1 border-t-2 border-dashed border-gray-300 dark:border-gray-600 mt-6 rotate-90 md:rotate-0 md:w-full md:absolute md:left-full md:top-1/2 md:transform md:-translate-y-1/2"></div>
+                  )}
                 </div>
               ))}
             </div>
@@ -81,8 +79,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link href="https://github.com/filecoin-project/filecoin-plus-client-onboarding#filecoin-plus-client-application-process" target="_blank" rel="noopener noreferrer" className="mt-8">
-                <Button size="lg">Apply for Fil+</Button>
+              <Link href="https://airtable.com/app64ajISFdqLB7XK/pagJzPpLypcEH5Cd3/form" target="_blank" rel="noopener noreferrer" className="mt-8">
+                <Button size="lg">Submit your application</Button>
               </Link>
             </div>
           </div>

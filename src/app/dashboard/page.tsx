@@ -13,6 +13,8 @@ import Account from "@/components/account/Account";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { DashboardBreadcrumb } from "@/components/dashboard/DashboardBreadcrumb";
 import { env } from "@/config/environment";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const PAGE_SIZE = 10;
 
@@ -50,7 +52,19 @@ export default function DashboardPage() {
             </div>
         )}
         <div className="relative ml-auto flex-1 md:grow-0"></div>
+        
         <Account />
+
+        <Button variant="outline">
+          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+            <Link
+              href="https://airtable.com/app64ajISFdqLB7XK/pagJzPpLypcEH5Cd3/form"
+              target="_blank"
+            >
+              Apply
+            </Link>
+          </span>
+        </Button>
       </header>
 
       <DashboardHeader
